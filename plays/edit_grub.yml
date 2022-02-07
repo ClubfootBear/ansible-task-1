@@ -1,0 +1,7 @@
+---
+- name: Edit grub
+  hosts: digital_oceans_vps
+  remote_user: root
+  roles:
+    - ../roles/edit_grub
+  # when: ansible_distribution == 'CentOS'

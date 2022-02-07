@@ -1,0 +1,8 @@
+---
+# tasks file for install_apache
+- name: Install apache choosen version
+  yum:
+    update_cache: yes
+    name: "{{ apache_service }}-{{ apache_version }}"
+    state: present
+  notify: Start apache and add to load

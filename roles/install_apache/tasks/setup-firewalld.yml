@@ -1,0 +1,21 @@
+---
+- name: Install firewalld
+  yum:
+    update_cache: yes
+    name: firewalld
+    state: present
+  notify: Start firewalld
+
+- name: Open 80's port for apache
+  ansible.posix.firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+  notify: Restar firewalld
+
+- name: Open 443's port for apache
+  ansible.posix.firewalld:
+    service: https
+    permanent: yes
+    state: enabled
+  notify: Restar firewalld

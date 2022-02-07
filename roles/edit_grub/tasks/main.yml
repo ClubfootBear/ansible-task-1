@@ -1,0 +1,40 @@
+---
+- name: Find the grub_items in the grub config
+  command: grep -q '{{ item.name }}' /etc/default/grub
+  loop: "{{ grub_items }}"
+  register: grub_items_result
+  ignore_errors: true
+
+- name: Print var grub_items
+  debug:
+    msg: "item.name - {{ item.item.name }}, item.value - {{ item.item.value }} and {{ item.rc }}"
+  loop: "{{ grub_items_result.results }}"
+
+
+- name: Edit grub items if exist with wrong values
+  lineinfile:
+    path: /etc/default/grub
+    backrefs: yes
+    regexp: '^GRUB_CMDLINE_LINUX="(.*){{ item.item.name }}=([0-1])(.*)"$'
+    line: 'GRUB_CMDLINE_LINUX="\1{{ item.item.name }}={{ item.item.value }}\3"'
+    state: present
+  when: >
+      (item.item.name == "net.ifnames" and item.rc == 0) or
+      (item.item.name == "biosdevname" and item.rc == 0)
+  loop: "{{ grub_items_result.results }}"
+  notify:
+  - Generate grub.cfg
+
+- name: Adding grub elements if they don't exist
+  lineinfile:
+    path: /etc/default/grub
+    backrefs: yes
+    regexp: '^GRUB_CMDLINE_LINUX="(.*)"$'
+    line: 'GRUB_CMDLINE_LINUX="\1 {{ item.item.name }}={{ item.item.value }}"'
+    state: present
+  when: >
+      (item.item.name == "net.ifnames" and item.rc == 1) or
+      (item.item.name == "biosdevname" and item.rc == 1)
+  loop: "{{ grub_items_result.results }}"
+  notify:
+  - Generate grub.cfg

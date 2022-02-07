@@ -1,0 +1,14 @@
+---
+- name: Close 80's port
+  ansible.posix.firewalld:
+    service: http
+    permanent: yes
+    state: disabled
+  notify: Restar firewalld
+
+- name: Close 443's
+  ansible.posix.firewalld:
+    service: https
+    permanent: yes
+    state: disabled
+  notify: Restar firewalld

@@ -1,0 +1,24 @@
+---
+# handlers file for install_apache
+
+- name: Start apache and add to load
+  service:
+    name: "{{ apache_service }}"
+    state: started 
+    enabled: yes
+
+- name: Reload apache
+  service:
+    name: httpd 
+    state: reloaded
+
+- name: Start firewalld
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: Restar firewalld
+  service:
+    name: firewalld
+    state: restarted

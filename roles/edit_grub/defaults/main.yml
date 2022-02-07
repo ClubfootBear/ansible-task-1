@@ -1,0 +1,7 @@
+---
+# defaults file for edit_grub
+grub_items:
+  - name: net.ifnames
+    value: 0
+  - name: biosdevname
+    value: 0

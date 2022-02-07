@@ -1,0 +1,10 @@
+---
+# handlers file for edit_grub
+- name: Generate grub.cfg
+  command:
+    cmd: grub2-mkconfig -o /boot/grub2/grub.cfg
+  notify:
+    - reboot
+
+- name: reboot
+  ansible.builtin.reboot:

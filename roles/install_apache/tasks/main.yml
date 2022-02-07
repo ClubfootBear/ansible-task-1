@@ -1,0 +1,15 @@
+---
+# Include variables and define needed variables.
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Messege about what will be install
+  debug:
+    msg: "Will be install apache version {{ apache_service }}-{{ apache_version }}"
+
+- include_tasks: "install-apache-{{ ansible_os_family }}.yml"
+
+- include_tasks: create-index-file.yml
+
+- include_tasks: setup-firewalld.yml
+  when: ansible_os_family == 'RedHat'
