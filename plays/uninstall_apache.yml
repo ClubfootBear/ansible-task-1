@@ -3,5 +3,5 @@
   hosts: digital_oceans_vps
   remote_user: root
   roles:
-    - uninstall_apache
+    - ../roles/uninstall_apache
   # when: ansible_distribution == 'CentOS'
