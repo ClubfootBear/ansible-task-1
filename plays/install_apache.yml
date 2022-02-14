@@ -1,5 +1,5 @@
 ---
-- name: Install nginx server with certs
+- name: Install apache server
   hosts: digital_oceans_vps
   remote_user: root
   roles:
