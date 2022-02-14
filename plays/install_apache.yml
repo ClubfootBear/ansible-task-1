@@ -3,4 +3,4 @@
   hosts: digital_oceans_vps
   remote_user: root
   roles:
-    - install_apache
+    - ../roles/install_apache/
